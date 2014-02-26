@@ -18,6 +18,9 @@ class CcblGeneratorTest < Minitest::Unit::TestCase
 
   def test_generate_body
     body = @ccbl_generator.generate_body
-    puts body
+    ['if (0 == strcmp(pMemberVariableName, "myCustomProperty"))',
+     'else if (0 == strcmp(pMemberVariableName, "myCustomPropertyBool"))'].each do |expect|
+      assert_match Regexp.new(Regexp.quote(expect)), body
+    end
   end
 end

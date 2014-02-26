@@ -209,18 +209,39 @@
 						<string>デルタオーケストラ</string>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>MainLayer</string>
+		<key>customProperties</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>myCustomProperty</string>
+				<key>optimized</key>
+				<false/>
+				<key>type</key>
+				<integer>0</integer>
+				<key>value</key>
+				<string>0</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>myCustomPropertyBool</string>
+				<key>optimized</key>
+				<false/>
+				<key>type</key>
+				<integer>2</integer>
+				<key>value</key>
+				<string>1</string>
+			</dict>
+		</array>
 		<key>displayName</key>
 		<string>CCLayer</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>properties</key>
 		<array>
 			<dict>
@@ -288,6 +309,8 @@
 				<true/>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

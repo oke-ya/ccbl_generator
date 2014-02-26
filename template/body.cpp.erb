@@ -39,12 +39,15 @@ bool <%= class_name %>::onAssignCCBCustomProperty(Ref* pTarget, const char* pMem
     bool bRet = false;
     if (pTarget == this)
     {
-        if (0 == strcmp(pMemberVariableName, "mCustomPropertyInt"))
+    <% custom_properties.each.with_index do |property, i| %>
+        <% if i > 0 %>else <% end %>if (0 == strcmp(pMemberVariableName, "<%= property['name'] %>"))
         {
-            this->mCustomPropertyInt = pCCBValue.asInt();
-            log("mCustomPropertyInt = %d", mCustomPropertyInt);
+            this-><%= property['name'] %> = pCCBValue.as<%= property_type[property['type']].capitalize %>();
+            log("<%= property['name'] %> = %d", <%= property['name'] %>);
             bRet = true;
         }
+    <% end %>
+    <% if false %>
         else if ( 0 == strcmp(pMemberVariableName, "mCustomPropertyFloat"))
         {
             this->mCustomPropertyFloat = pCCBValue.asFloat();
@@ -63,9 +66,8 @@ bool <%= class_name %>::onAssignCCBCustomProperty(Ref* pTarget, const char* pMem
             log("mCustomPropertyString = %s", mCustomPropertyString.c_str());
             bRet = true;
         }
-        
+    <% end %>    
     }
 
     return bRet;
 }
-
