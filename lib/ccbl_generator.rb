@@ -11,15 +11,18 @@ class CcblGenerator
     if class_name.length < 1
       class_name = File.basename(path, ".ccb")
     end
+    member_variables =  plist["nodeGraph"]['children'].select{|n| n['memberVarAssignmentName'].length > 0 }
     @binding = {project_name: project_name,
                 class_name:   class_name,
-                plist:        plist}
+                plist:        plist,
+                member_variables: member_variables}
 
   end
 
   def generate
     generate_loader
     generate_header
+    generate_body
   end
 
   def generate_loader
@@ -29,6 +32,11 @@ class CcblGenerator
 
   def generate_header
     template = File.expand_path("../../template/header.h.erb", __FILE__)
+    @loader = Erubis::Eruby.new(File.read(template)).result(@binding)
+  end
+
+  def generate_body
+    template = File.expand_path("../../template/body.cpp.erb", __FILE__)
     @loader = Erubis::Eruby.new(File.read(template)).result(@binding)
   end
 end

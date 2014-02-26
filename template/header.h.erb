@@ -26,9 +26,8 @@ public:
     virtual void onNodeLoaded(cocos2d::Node * node, cocosbuilder::NodeLoader * nodeLoader);
 
 private:
-<% plist["nodeGraph"]["children"].each do |node| %>
-   <% next if node["memberVarAssignmentName"].length < 1 %>
-   cocos2d::<%= node["baseClass"].gsub(/^CC/, '') %>* <%= node["memberVarAssignmentName"] %>;
+<% member_variables.each do |var| %>
+   cocos2d::<%= var["baseClass"].gsub(/^CC/, '') %>* <%= var["memberVarAssignmentName"] %>;
 <% end %>
 };
 

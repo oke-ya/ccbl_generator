@@ -1,0 +1,71 @@
+#include "<%= class_name %>.h"
+
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace cocosbuilder;
+
+<%= class_name %>::<%= class_name %>()
+: mBurstSprite(NULL)
+, mTestTitleLabelTTF(NULL)
+{}
+
+<%= class_name %>::~<%= class_name %>()
+{
+    CC_SAFE_RELEASE(mBurstSprite);
+    CC_SAFE_RELEASE(mTestTitleLabelTTF);
+}
+
+void <%= class_name %>::onNodeLoaded(cocos2d::Node * node,  cocosbuilder::NodeLoader * nodeLoader) {
+}
+
+
+SEL_MenuHandler <%= class_name %>::onResolveCCBCCMenuItemSelector(Ref * pTarget, const char * pSelectorName) {
+    return NULL;    
+}
+
+Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(Ref * pTarget, const char * pSelectorName) {
+    return NULL;
+}
+
+bool <%= class_name %>::onAssignCCBMemberVariable(Ref * pTarget, const char * pMemberVariableName, Node * pNode) {
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "mBurstSprite", Sprite *, this->mBurstSprite);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "mTestTitleLabelTTF", LabelTTF *, this->mTestTitleLabelTTF);
+
+    return false;
+}
+
+bool <%= class_name %>::onAssignCCBCustomProperty(Ref* pTarget, const char* pMemberVariableName, const Value& pCCBValue)
+{
+    bool bRet = false;
+    if (pTarget == this)
+    {
+        if (0 == strcmp(pMemberVariableName, "mCustomPropertyInt"))
+        {
+            this->mCustomPropertyInt = pCCBValue.asInt();
+            log("mCustomPropertyInt = %d", mCustomPropertyInt);
+            bRet = true;
+        }
+        else if ( 0 == strcmp(pMemberVariableName, "mCustomPropertyFloat"))
+        {
+            this->mCustomPropertyFloat = pCCBValue.asFloat();
+            log("mCustomPropertyFloat = %f", mCustomPropertyFloat);
+            bRet = true;
+        }
+        else if ( 0  == strcmp(pMemberVariableName, "mCustomPropertyBoolean"))
+        {
+            this->mCustomPropertyBoolean = pCCBValue.asBool();
+            log("mCustomPropertyBoolean = %d", mCustomPropertyBoolean);
+            bRet = true;
+        }
+        else if ( 0  == strcmp(pMemberVariableName, "mCustomPropertyString"))
+        {
+            this->mCustomPropertyString = pCCBValue.asString();
+            log("mCustomPropertyString = %s", mCustomPropertyString.c_str());
+            bRet = true;
+        }
+        
+    }
+
+    return bRet;
+}
+
