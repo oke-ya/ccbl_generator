@@ -1,5 +1,9 @@
 require "ccbl_generator/version"
 
-module CcblGenerator
-  # Your code goes here...
+class CcblGenerator
+  def initialize(path)
+  end
+
+  def generate
+  end
 end
