@@ -1,0 +1,14 @@
+#ifndef __<%= project_name %>__<%= class_name %>__
+#define __<%= project_name %>__<%= class_name %>__
+
+#include "<%= class_name %>.h"
+
+class <%= class_name %>Loader : public cocosbuilder::LayerLoader {
+    public:
+        CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(<%= class_name %>Loader, loader);
+
+    protected:
+        CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(<%= class_name %>);
+};
+
+#endif /* defined(__<%= project_name %>__<%= class_name %>__) */
