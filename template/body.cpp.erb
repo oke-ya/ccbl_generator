@@ -5,14 +5,14 @@ USING_NS_CC_EXT;
 using namespace cocosbuilder;
 
 <%= class_name %>::<%= class_name %>()
-: mBurstSprite(NULL)
-, mTestTitleLabelTTF(NULL)
+<%= member_variables.map{|var| var['memberVarAssignmentName'] + "(NULL)"}.join(",\n").tap{|s| s.length > 0 && s.gsub!(/^/, ": ") } %>
 {}
 
 <%= class_name %>::~<%= class_name %>()
 {
-    CC_SAFE_RELEASE(mBurstSprite);
-    CC_SAFE_RELEASE(mTestTitleLabelTTF);
+<% member_variables.each do |var| %>
+    CC_SAFE_RELEASE(<%= var['memberVarAssignmentName'] %>);
+<% end %>
 }
 
 void <%= class_name %>::onNodeLoaded(cocos2d::Node * node,  cocosbuilder::NodeLoader * nodeLoader) {
@@ -28,9 +28,9 @@ Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(Ref * pTarget,
 }
 
 bool <%= class_name %>::onAssignCCBMemberVariable(Ref * pTarget, const char * pMemberVariableName, Node * pNode) {
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "mBurstSprite", Sprite *, this->mBurstSprite);
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "mTestTitleLabelTTF", LabelTTF *, this->mTestTitleLabelTTF);
-
+<% member_variables.each do |var| %>
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "<%= var["memberVarAssignmentName"]%>", <%= var["baseClass"].gsub(/^CC/, '') %>*, this-><%= var["memberVarAssignmentName"]%>);
+<% end %>
     return false;
 }
 
