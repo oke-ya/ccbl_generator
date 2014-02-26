@@ -7,6 +7,12 @@ class CcblGeneratorTest < Minitest::Unit::TestCase
   end
 
   def test_generate_loader
-    assert_match /#ifndef __test__MainLayer__/, @ccbl_generator.generate_loader
+    assert_match /__test__MainLayerLoader__/, @ccbl_generator.generate_loader
+  end
+
+  def test_generate_header
+    header = @ccbl_generator.generate_header
+    assert_match /__test__MainLayer__/, header
+    assert_match /cocos2d::LabelTTF\* title;/, header
   end
 end
