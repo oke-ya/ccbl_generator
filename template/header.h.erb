@@ -29,6 +29,10 @@ private:
 <% member_variables.each do |var| %>
    cocos2d::<%= var["baseClass"].gsub(/^CC/, '') %>* <%= var["memberVarAssignmentName"] %>;
 <% end %>
+<% custom_properties.each do |property| %>
+   <% t = property_type[property["type"]] -%>
+   <%=  t == 'string' ? 'std::string' : t %> <%= property["name"] %>;
+<% end %>
 };
 
 #endif /* defined(__<%= project_name %>__<%= class_name %>__) */

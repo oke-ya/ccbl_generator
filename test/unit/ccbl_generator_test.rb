@@ -12,8 +12,11 @@ class CcblGeneratorTest < Minitest::Unit::TestCase
 
   def test_generate_header
     header = @ccbl_generator.generate_header
-    assert_match /__test__MainLayer__/, header
-    assert_match /cocos2d::LabelTTF\* title;/, header
+    ['__test__MainLayer__',
+     'cocos2d::LabelTTF* title;',
+     'std::string myCustomPropertyString;'].each do |expect|
+      assert_match Regexp.new(Regexp.quote(expect)), header
+    end
   end
 
   def test_generate_body
