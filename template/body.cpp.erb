@@ -43,30 +43,10 @@ bool <%= class_name %>::onAssignCCBCustomProperty(cocos2d::Object* pTarget, cons
         <% if i > 0 %>else <% end %>if (0 == strcmp(pMemberVariableName, "<%= property['name'] %>"))
         {
             this-><%= property['name'] %> = pCCBValue.as<%= property_type[property['type']].capitalize %>();
-            log("<%= property['name'] %> = %d", <%= property['name'] %>);
+            log("<%= property['name'] %> = <%= symbol_type[property['type']]%>", <%= property['name'] %><% if property['type'] == 3 %>.c_str()<% end %>);
             bRet = true;
         }
     <% end %>
-    <% if false %>
-        else if ( 0 == strcmp(pMemberVariableName, "mCustomPropertyFloat"))
-        {
-            this->mCustomPropertyFloat = pCCBValue.asFloat();
-            log("mCustomPropertyFloat = %f", mCustomPropertyFloat);
-            bRet = true;
-        }
-        else if ( 0  == strcmp(pMemberVariableName, "mCustomPropertyBoolean"))
-        {
-            this->mCustomPropertyBoolean = pCCBValue.asBool();
-            log("mCustomPropertyBoolean = %d", mCustomPropertyBoolean);
-            bRet = true;
-        }
-        else if ( 0  == strcmp(pMemberVariableName, "mCustomPropertyString"))
-        {
-            this->mCustomPropertyString = pCCBValue.asString();
-            log("mCustomPropertyString = %s", mCustomPropertyString.c_str());
-            bRet = true;
-        }
-    <% end %>    
     }
 
     return bRet;

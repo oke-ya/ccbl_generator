@@ -19,7 +19,8 @@ class CcblGenerator
                 plist:        plist,
                 member_variables: member_variables,
                 custom_properties: custom_properties,
-                property_type: {0 => 'int', 1 => 'float', 2 => 'bool', 3 => 'string' }}
+                property_type: {0 => 'int', 1 => 'float', 2 => 'bool', 3 => 'string' },
+                symbol_type:   {0 => '%d',  1 => '%f',    2 => '%d',   3 => '%s'}}
 
   end
 
