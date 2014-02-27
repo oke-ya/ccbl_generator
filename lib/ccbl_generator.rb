@@ -24,9 +24,9 @@ class CcblGenerator
   end
 
   def generate
-    generate_loader
-    generate_header
-    generate_body
+    {loader: generate_loader,
+     header: generate_header,
+     body: generate_body}
   end
 
   def generate_loader
