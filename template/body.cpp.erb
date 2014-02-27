@@ -15,26 +15,26 @@ using namespace cocosbuilder;
 <% end %>
 }
 
-void <%= class_name %>::onNodeLoaded(cocos2d::Node * node,  cocosbuilder::NodeLoader * nodeLoader) {
+void <%= class_name %>::onNodeLoaded(cocos2d::Node* node,  cocosbuilder::NodeLoader* nodeLoader) {
 }
 
 
-SEL_MenuHandler <%= class_name %>::onResolveCCBCCMenuItemSelector(Ref * pTarget, const char * pSelectorName) {
+SEL_MenuHandler <%= class_name %>::onResolveCCBCCMenuItemSelector(cocos2d::Object* pTarget, const char* pSelectorName) {
     return NULL;    
 }
 
-Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(Ref * pTarget, const char * pSelectorName) {
+Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(cocos2d::Object* pTarget, const char * pSelectorName) {
     return NULL;
 }
 
-bool <%= class_name %>::onAssignCCBMemberVariable(Ref * pTarget, const char * pMemberVariableName, Node * pNode) {
+bool <%= class_name %>::onAssignCCBMemberVariable(cocos2d::Object* pTarget, const char* pMemberVariableName, Node* pNode) {
 <% member_variables.each do |var| %>
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "<%= var["memberVarAssignmentName"]%>", <%= var["baseClass"].gsub(/^CC/, '') %>*, this-><%= var["memberVarAssignmentName"]%>);
 <% end %>
     return false;
 }
 
-bool <%= class_name %>::onAssignCCBCustomProperty(Ref* pTarget, const char* pMemberVariableName, const Value& pCCBValue)
+bool <%= class_name %>::onAssignCCBCustomProperty(cocos2d::Object* pTarget, const char* pMemberVariableName, const Value& pCCBValue)
 {
     bool bRet = false;
     if (pTarget == this)
