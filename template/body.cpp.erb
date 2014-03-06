@@ -46,7 +46,7 @@ bool <%= class_name %>::onAssignCCBCustomProperty(cocos2d::Object* pTarget, cons
             log("<%= property['name'] %> = <%= symbol_type[property['type']]%>", <%= property['name'] %><% if property['type'] == 3 %>.c_str()<% end %>);
             bRet = true;
         }
-    <% end %>
+    <% end if custom_properties %>
     }
 
     return bRet;

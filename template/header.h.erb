@@ -32,7 +32,7 @@ private:
 <% custom_properties.each do |property| %>
    <% t = property_type[property["type"]] -%>
    <%=  t == 'string' ? 'std::string' : t %> <%= property["name"] %>;
-<% end %>
+<% end if custom_properties %>
 };
 
 #endif /* defined(__<%= project_name %>__<%= class_name %>__) */
