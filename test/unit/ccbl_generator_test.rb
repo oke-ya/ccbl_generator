@@ -13,7 +13,7 @@ class CcblGeneratorTest < Minitest::Unit::TestCase
   def test_generate_header
     header = @ccbl_generator.generate_header
     ['__test__MainLayer__',
-     'cocos2d::LabelTTF* title;',
+     'LabelTTF* title;',
      'std::string myCustomPropertyString;'].each do |expect|
       assert_match Regexp.new(Regexp.quote(expect)), header
     end

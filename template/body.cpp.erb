@@ -29,7 +29,7 @@ Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(cocos2d::Objec
 
 bool <%= class_name %>::onAssignCCBMemberVariable(cocos2d::Object* pTarget, const char* pMemberVariableName, Node* pNode) {
 <% member_variables.each do |var| %>
-    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "<%= var["memberVarAssignmentName"]%>", <%= var["baseClass"].gsub(/^CC/, '') %>*, this-><%= var["memberVarAssignmentName"]%>);
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "<%= var["memberVarAssignmentName"]%>", <%= typeof(var) %>*, this-><%= var["memberVarAssignmentName"]%>);
 <% end %>
     return false;
 }

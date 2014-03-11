@@ -4,6 +4,11 @@
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
 #include "cocosbuilder/CocosBuilder.h"
+<%= header_includes(member_variables) %>
+
+using namespace cocos2d;
+using namespace cocosbuilder;
+
 
 class <%= class_name %>
 : public cocos2d::Layer
@@ -27,7 +32,7 @@ public:
 
 private:
 <% member_variables.each do |var| %>
-   cocos2d::<%= var["baseClass"].gsub(/^CC/, '') %>* <%= var["memberVarAssignmentName"] %>;
+   <%= typeof(var) %>* <%= var["memberVarAssignmentName"] %>;
 <% end %>
 <% custom_properties.each do |property| %>
    <% t = property_type[property["type"]] -%>
