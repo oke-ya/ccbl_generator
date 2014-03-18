@@ -7,14 +7,16 @@ using namespace cocosbuilder;
 <%= class_name %>::<%= class_name %>()
 {}
 
+<% if member_variables && member_variables.length > 0 %>
 <%= class_name %>::~<%= class_name %>()
 {
 <% member_variables.each do |var| %>
     CC_SAFE_RELEASE(<%= var['memberVarAssignmentName'] %>);
 <% end %>
 }
+<% end %>
 
-<% member_variables.each do |var| %>
+<% member_variables && member_variables.each do |var| %>
 <%= typeof(var) %>* <%= class_name %>::get<%= var["memberVarAssignmentName"].sub(/^(_\w)/){|c| c.gsub!(/^_/, ""); c.capitalize } %>()
 {
     return this-><%= var["memberVarAssignmentName"]%>;

@@ -6,16 +6,32 @@ base_dir =  Pathname.new(File.expand_path("../../..", __FILE__))
 
 Dir.glob(base_dir.join("{Resources,CocosBuilder}", '**', '*.ccb')) do |ccb|
   name = File.basename(ccb, ".ccb")
-  ccbl = CcblGenerator.new(project_name: File.basename(base_dir),
-                           path:         ccb).generate
-  {header: "%s.h",
-   loader: "%sLoader.h",
-   body:   "%s.cpp"}.each do |type, fname|
+  generator = CcblGenerator.new(project_name: File.basename(base_dir),
+                                path:         ccb)
+
+  files = {
+    header: "%s.h",
+    loader: "%sLoader.h",
+    body:   "%s.cpp"}
+  
+  ccbl = generator.generate
+  files.each do |type, fname|
     content = ccbl[type]
     path = base_dir.join("Classes", fname % name)
     next if File.exist?(path)
     File.open(path, "w") do |f|
       f.write(content)
+    end
+  end
+
+  generator.custom_classes.each do |custom_class|
+    contents = generator.generate_custom_class(custom_class)
+    files.each do |type, fname|
+      path = base_dir.join("Classes", fname % custom_class)
+      next if File.exist?(path)
+      File.open(path, "w") do |f|
+        f.write(contents[type.to_s])
+      end
     end
   end
 end
