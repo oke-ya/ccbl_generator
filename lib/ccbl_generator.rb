@@ -18,7 +18,6 @@ class CcblGenerator
       class_name = File.basename(path, ".ccb")
     end
     member_variables =  plist["nodeGraph"]['children'].select{|n| n['memberVarAssignmentName'].length > 0 }
-    
     custom_properties = plist["nodeGraph"]["customProperties"]
     @binding = {project_name: project_name,
                 class_name:   class_name,

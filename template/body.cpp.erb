@@ -5,7 +5,6 @@ USING_NS_CC_EXT;
 using namespace cocosbuilder;
 
 <%= class_name %>::<%= class_name %>()
-<%= member_variables.map{|var| var['memberVarAssignmentName'] + "(NULL)"}.join(",\n").tap{|s| s.length > 0 && s.gsub!(/^/, ": ") } %>
 {}
 
 <%= class_name %>::~<%= class_name %>()
@@ -15,6 +14,13 @@ using namespace cocosbuilder;
 <% end %>
 }
 
+<% member_variables.each do |var| %>
+<%= typeof(var) %>* <%= class_name %>::get<%= var["memberVarAssignmentName"].sub(/^(_\w)/){|c| c.gsub!(/^_/, ""); c.capitalize } %>()
+{
+    return this-><%= var["memberVarAssignmentName"]%>;
+}
+
+<% end %>
 void <%= class_name %>::onNodeLoaded(cocos2d::Node* node,  cocosbuilder::NodeLoader* nodeLoader) {
 }
 

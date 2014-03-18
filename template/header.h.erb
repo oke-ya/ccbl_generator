@@ -30,6 +30,10 @@ public:
     virtual bool onAssignCCBCustomProperty(cocos2d::Object* pTarget, const char* pMemberVariableName, const cocos2d::Value& pCCBValue);
     virtual void onNodeLoaded(cocos2d::Node* node, cocosbuilder::NodeLoader* nodeLoader);
 
+<% member_variables.each do |var| %>
+    <%= typeof(var) %>* get<%= var["memberVarAssignmentName"].sub(/^(_\w)/){|c| c.gsub!(/^_/, ""); c.capitalize } %>(void);
+<% end %>
+
 private:
 <% member_variables.each do |var| %>
    <%= typeof(var) %>* <%= var["memberVarAssignmentName"] %>;
