@@ -21,13 +21,13 @@ class CcblGenerator
     end
     @custom_classes = plist["nodeGraph"]["children"]
       .select{|n| n['baseClass'] != "CCBFile" && n['customClass'].length > 0 }
-      .map{|n| n['customClass'] }
+      .map{|n| {base_class: n['baseClass'], custom_class: n['customClass']} }
     @custom_classes.uniq!
-
     member_variables =  plist["nodeGraph"]['children'].select{|n| n['memberVarAssignmentName'].length > 0 }
     custom_properties = plist["nodeGraph"]["customProperties"]
     @binding = {project_name:      project_name,
                 class_name:        class_name,
+                base_class:        "Layer",
                 plist:             plist,
                 member_variables:  member_variables,
                 custom_properties: custom_properties,
@@ -59,12 +59,13 @@ class CcblGenerator
     TemplateRenderer.new(File.read(template)).result(binding)
   end
 
-  def generate_custom_class(name)
+  def generate_custom_class(classes)
     binding = {project_name:      @binding[:project_name],
-                class_name:        name,
-                member_variables:  [],
-                custom_properties: [],
-    }
+               class_name:        classes[:custom_class],
+               member_variables:  [],
+               custom_properties: [],
+               base_class: classes[:base_class].gsub(/^CC/, "")}
+    
     %w|header body loader|.map{|type|
       [type, send("generate_#{type}", binding)]
     }.to_h

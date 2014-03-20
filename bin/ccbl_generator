@@ -24,10 +24,12 @@ Dir.glob(base_dir.join("{Resources,CocosBuilder}", '**', '*.ccb')) do |ccb|
     end
   end
 
-  generator.custom_classes.each do |custom_class|
-    contents = generator.generate_custom_class(custom_class)
+  generator.custom_classes.each do |classes|
+    
+    contents = generator.generate_custom_class(classes)
     files.each do |type, fname|
-      path = base_dir.join("Classes", fname % custom_class)
+      class_name = classes[:custom_class]
+      path = base_dir.join("Classes", fname % class_name)
       next if File.exist?(path)
       File.open(path, "w") do |f|
         f.write(contents[type.to_s])

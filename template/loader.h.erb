@@ -2,8 +2,11 @@
 #define __<%= project_name %>__<%= class_name %>Loader__
 
 #include "<%= class_name %>.h"
+#include "cocos2d.h"
+#include "extensions/cocos-ext.h"
+#include "cocosbuilder/CocosBuilder.h"
 
-class <%= class_name %>Loader : public cocosbuilder::LayerLoader {
+class <%= class_name %>Loader : public cocosbuilder::<%= base_class %>Loader {
     public:
         CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(<%= class_name %>Loader, loader);
 
