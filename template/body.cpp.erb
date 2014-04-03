@@ -4,17 +4,20 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace cocosbuilder;
 
+
 <%= class_name %>::<%= class_name %>()
+<% if member_variables && member_variables.length > 0 -%>
+: <%= member_variables.map{|var| var['memberVarAssignmentName'] + "(NULL)" }.join(',') %>
+<% end %>
 {}
 
-<% if member_variables && member_variables.length > 0 %>
 <%= class_name %>::~<%= class_name %>()
 {
 <% member_variables.each do |var| %>
     CC_SAFE_RELEASE(<%= var['memberVarAssignmentName'] %>);
 <% end %>
 }
-<% end %>
+
 
 <% member_variables && member_variables.each do |var| %>
 <%= typeof(var) %>* <%= class_name %>::get<%= var["memberVarAssignmentName"].sub(/^(_\w)/){|c| c.gsub!(/^_/, ""); c.capitalize } %>()
@@ -27,22 +30,22 @@ void <%= class_name %>::onNodeLoaded(cocos2d::Node* node,  cocosbuilder::NodeLoa
 }
 
 
-SEL_MenuHandler <%= class_name %>::onResolveCCBCCMenuItemSelector(cocos2d::Object* pTarget, const char* pSelectorName) {
+SEL_MenuHandler <%= class_name %>::onResolveCCBCCMenuItemSelector(cocos2d::Ref* pTarget, const char* pSelectorName) {
     return NULL;    
 }
 
-Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(cocos2d::Object* pTarget, const char * pSelectorName) {
+Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(cocos2d::Ref* pTarget, const char * pSelectorName) {
     return NULL;
 }
 
-bool <%= class_name %>::onAssignCCBMemberVariable(cocos2d::Object* pTarget, const char* pMemberVariableName, Node* pNode) {
+bool <%= class_name %>::onAssignCCBMemberVariable(cocos2d::Ref* pTarget, const char* pMemberVariableName, Node* pNode) {
 <% member_variables.each do |var| %>
     CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "<%= var["memberVarAssignmentName"]%>", <%= typeof(var) %>*, this-><%= var["memberVarAssignmentName"]%>);
 <% end %>
     return false;
 }
 
-bool <%= class_name %>::onAssignCCBCustomProperty(cocos2d::Object* pTarget, const char* pMemberVariableName, const Value& pCCBValue)
+bool <%= class_name %>::onAssignCCBCustomProperty(cocos2d::Ref* pTarget, const char* pMemberVariableName, const Value& pCCBValue)
 {
     bool bRet = false;
     if (pTarget == this)
