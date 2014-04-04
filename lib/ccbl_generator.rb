@@ -50,12 +50,26 @@ class CcblGenerator
   end
 
   def generate_header(binding)
-    template = File.expand_path("../../template/header.h.erb", __FILE__)
+    name = case binding[:base_class]
+           when "Sprite"
+             "sprite_header"
+           else
+             "header"
+           end
+
+    template = File.expand_path("../../template/#{name}.h.erb", __FILE__)
     TemplateRenderer.new(File.read(template)).result(binding)
   end
 
   def generate_body(binding)
-    template = File.expand_path("../../template/body.cpp.erb", __FILE__)
+    name = case binding[:base_class]
+           when "Sprite"
+             "sprite_body"
+           else
+             "body"
+           end
+    template = File.expand_path("../../template/#{name}.cpp.erb", __FILE__)
+
     TemplateRenderer.new(File.read(template)).result(binding)
   end
 
@@ -65,7 +79,6 @@ class CcblGenerator
                member_variables:  [],
                custom_properties: [],
                base_class: classes[:base_class].gsub(/^CC/, "")}
-    
     %w|header body loader|.map{|type|
       [type, send("generate_#{type}", binding)]
     }.to_h

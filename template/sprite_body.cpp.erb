@@ -1,0 +1,18 @@
+#include "<%= class_name %>.h"
+
+<%= class_name %>* <%= class_name %>::create()
+{
+    auto *sprite = new <%= class_name %>();
+    if (sprite && sprite->init())
+    {
+        sprite->autorelease();
+        return sprite;
+    }
+    CC_SAFE_DELETE(sprite);
+    return nullptr;
+};
+
+void <%= class_name %>::onTouchBegan(Touch *touch, Event *event)
+{
+    CCLOG("%s", "touch");
+}

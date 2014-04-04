@@ -1,0 +1,21 @@
+#ifndef __<%= project_name %>_<%= class_name%>__
+#define __<%= project_name %>_<%= class_name%>__
+
+#include "cocos2d.h"
+#include "extensions/cocos-ext.h"
+#include "cocosbuilder/CocosBuilder.h"
+#include "TouchableSprite.h"
+<%= header_includes(member_variables) %>
+
+using namespace cocos2d;
+using namespace cocosbuilder;
+
+class <%= class_name %>: public TouchableSprite
+{
+public:
+    static <%= class_name %>* create(void);
+    virtual void onTouchBegan(Touch* touch, Event* event);
+private:
+};
+
+#endif /* defined(__<%= project_name %>__<%= class_name %>__) */
