@@ -31,10 +31,13 @@ void <%= class_name %>::onNodeLoaded(cocos2d::Node* node,  cocosbuilder::NodeLoa
 
 
 SEL_MenuHandler <%= class_name %>::onResolveCCBCCMenuItemSelector(cocos2d::Ref* pTarget, const char* pSelectorName) {
-    return NULL;    
+    return NULL;
 }
 
 Control::Handler <%= class_name %>::onResolveCCBCCControlSelector(cocos2d::Ref* pTarget, const char * pSelectorName) {
+<% controls.each do |control| %>
+    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "<%= control %>", <%= class_name %>::<%= control %>);
+<% end if controls %>
     return NULL;
 }
 
@@ -62,3 +65,9 @@ bool <%= class_name %>::onAssignCCBCustomProperty(cocos2d::Ref* pTarget, const c
 
     return bRet;
 }
+
+<% controls.each do |control| %>
+void <%= class_name %>::<%= control %>(cocos2d::Ref *pSender, Control::EventType pControlEvent) {
+    log("%s", "<%= control %> Touch Down.");
+}
+<% end if controls %>

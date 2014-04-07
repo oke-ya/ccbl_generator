@@ -34,6 +34,10 @@ public:
     <%= typeof(var) %>* get<%= var["memberVarAssignmentName"].sub(/^(_\w)/){|c| c.gsub!(/^_/, ""); c.capitalize } %>(void);
 <% end %>
 
+<% controls.each do |control| %>
+    void <%= control %>(cocos2d::Ref * sender, cocos2d::extension::Control::EventType pControlEvent);
+<% end if controls %>
+
 private:
 <% member_variables.each do |var| %>
    <%= typeof(var) %>* <%= var["memberVarAssignmentName"] %>;

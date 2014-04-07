@@ -24,8 +24,13 @@ class CcblGenerator
       .map{|n| {base_class: n['baseClass'], custom_class: n['customClass']} }
     @custom_classes.uniq!
     member_variables =  plist["nodeGraph"]['children'].select{|n| n['memberVarAssignmentName'].length > 0 }
+    controls = plist['nodeGraph']['children'].select{|node| node["baseClass"] == 'CCControlButton' }.map{|node|
+      n = node["properties"].find{|n| n['name'] == 'ccControl'}["value"]
+      n && n.first 
+    }
     custom_properties = plist["nodeGraph"]["customProperties"]
     @binding = {project_name:      project_name,
+                controls:          controls,
                 class_name:        class_name,
                 base_class:        "Layer",
                 plist:             plist,
@@ -78,6 +83,7 @@ class CcblGenerator
                class_name:        classes[:custom_class],
                member_variables:  [],
                custom_properties: [],
+               controls:          [],
                base_class: classes[:base_class].gsub(/^CC/, "")}
     %w|header body loader|.map{|type|
       [type, send("generate_#{type}", binding)]
