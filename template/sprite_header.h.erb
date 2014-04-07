@@ -11,11 +11,27 @@ using namespace cocos2d;
 using namespace cocosbuilder;
 
 class <%= class_name %>: public TouchableSprite
+, public cocosbuilder::CCBMemberVariableAssigner
 {
 public:
+    <%= class_name %>();
+    virtual ~<%= class_name %>();
+
     static <%= class_name %>* create(void);
     virtual void onTouchBegan(Touch* touch, Event* event);
+
+    virtual bool onAssignCCBMemberVariable(cocos2d::Ref* pTarget, const char * pMemberVariableName, cocos2d::Node * node);
+    virtual bool onAssignCCBCustomProperty(cocos2d::Ref* pTarget, const char* pMemberVariableName, const cocos2d::Value& pCCBValue);
 private:
+
+
+<% member_variables.each do |var| %>
+   <%= typeof(var) %>* <%= var["memberVarAssignmentName"] %>;
+<% end %>
+<% custom_properties.each do |property| %>
+   <% t = property_type[property["type"]] -%>
+   <%=  t == 'string' ? 'std::string' : t %> <%= property["name"] %>;
+<% end if custom_properties %>
 };
 
 #endif /* defined(__<%= project_name %>__<%= class_name %>__) */

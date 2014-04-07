@@ -1,5 +1,18 @@
 #include "<%= class_name %>.h"
 
+<%= class_name %>::<%= class_name %>()
+<% if member_variables && member_variables.length > 0 -%>
+: <%= member_variables.map{|var| var['memberVarAssignmentName'] + "(NULL)" }.join(',') %>
+<% end %>
+{}
+
+<%= class_name %>::~<%= class_name %>()
+{
+<% member_variables.each do |var| %>
+    CC_SAFE_RELEASE(<%= var['memberVarAssignmentName'] %>);
+<% end %>
+}
+
 <%= class_name %>* <%= class_name %>::create()
 {
     auto *sprite = new <%= class_name %>();
@@ -15,4 +28,29 @@
 void <%= class_name %>::onTouchBegan(Touch *touch, Event *event)
 {
     CCLOG("%s", "touch");
+}
+
+bool <%= class_name %>::onAssignCCBMemberVariable(cocos2d::Ref* pTarget, const char* pMemberVariableName, Node* pNode) {
+<% member_variables.each do |var| %>
+    CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "<%= var["memberVarAssignmentName"]%>", <%= typeof(var) %>*, this-><%= var["memberVarAssignmentName"]%>);
+<% end %>
+    return false;
+}
+
+bool <%= class_name %>::onAssignCCBCustomProperty(cocos2d::Ref* pTarget, const char* pMemberVariableName, const Value& pCCBValue)
+{
+    bool bRet = false;
+    if (pTarget == this)
+    {
+    <% custom_properties.each.with_index do |property, i| %>
+        <% if i > 0 %>else <% end %>if (0 == strcmp(pMemberVariableName, "<%= property['name'] %>"))
+        {
+            this-><%= property['name'] %> = pCCBValue.as<%= property_type[property['type']].capitalize %>();
+            log("<%= property['name'] %> = <%= symbol_type[property['type']]%>", <%= property['name'] %><% if property['type'] == 3 %>.c_str()<% end %>);
+            bRet = true;
+        }
+    <% end if custom_properties %>
+    }
+
+    return bRet;
 }

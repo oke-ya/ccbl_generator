@@ -18,7 +18,6 @@ using namespace cocosbuilder;
 <% end %>
 }
 
-
 <% member_variables && member_variables.each do |var| %>
 <%= typeof(var) %>* <%= class_name %>::get<%= var["memberVarAssignmentName"].sub(/^(_\w)/){|c| c.gsub!(/^_/, ""); c.capitalize } %>()
 {
