@@ -11,6 +11,16 @@ end
 class CcblGenerator
   attr_accessor :custom_classes
 
+  def extract_custom_classes(nodes)
+    return unless nodes
+    extracted = nodes.select{|n| n['baseClass'] != "CCBFile" && n['customClass'].length > 0 }.map{|n|
+      {base_class: n['baseClass'],
+        custom_class: n['customClass'],
+        custom_properties: n["customProperties"]}
+    }
+    extracted += nodes.map{|n| extract_custom_classes(n['children']) }.flatten
+  end
+
   def initialize(project_name: ,path: )
     raise "No such plist file #{path}" unless File.exists?(path)
 
@@ -19,12 +29,8 @@ class CcblGenerator
     if class_name.length < 1
       class_name = File.basename(path, ".ccb")
     end
-    @custom_classes = plist["nodeGraph"]["children"]
-      .select{|n| n['baseClass'] != "CCBFile" && n['customClass'].length > 0 }
-      .map{|n| {base_class: n['baseClass'],
-                custom_class: n['customClass'],
-                custom_properties: n["customProperties"]}
-    }
+
+    @custom_classes = extract_custom_classes(plist["nodeGraph"]["children"])
     @custom_classes.uniq!
     member_variables =  plist["nodeGraph"]['children'].select{|n| n['memberVarAssignmentName'].length > 0 }
     controls = plist['nodeGraph']['children'].select{|node| node["baseClass"] == 'CCControlButton' }.map{|node|
