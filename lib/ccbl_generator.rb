@@ -21,6 +21,12 @@ class CcblGenerator
     extracted += nodes.map{|n| extract_custom_classes(n['children']) }.flatten
   end
 
+  def extract_member_variables(nodes)
+    return unless nodes
+    selected = nodes.select{|n| n['memberVarAssignmentName'].length > 0 } 
+    selected += nodes.map{|n| extract_member_variables(n['children']) }.flatten
+  end
+
   def initialize(project_name: ,path: )
     raise "No such plist file #{path}" unless File.exists?(path)
 
@@ -32,7 +38,9 @@ class CcblGenerator
 
     @custom_classes = extract_custom_classes(plist["nodeGraph"]["children"])
     @custom_classes.uniq!
-    member_variables =  plist["nodeGraph"]['children'].select{|n| n['memberVarAssignmentName'].length > 0 }
+
+    
+    member_variables = extract_member_variables(plist["nodeGraph"]['children'])
     controls = plist['nodeGraph']['children'].select{|node| node["baseClass"] == 'CCControlButton' }.map{|node|
       n = node["properties"].find{|n| n['name'] == 'ccControl'}["value"]
       n && n.first 
