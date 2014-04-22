@@ -4,14 +4,15 @@
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
 #include "cocosbuilder/CocosBuilder.h"
+<% parent_class = custom_properties && (i = custom_properties.index{|v| v['name'] == "parentClass" }) && custom_properties.slice!(i)["value"] %>
+<% if parent_class %>#include "<%= parent_class %>.h" <% end %>
 <%= header_includes(member_variables) %>
 
 using namespace cocos2d;
 using namespace cocosbuilder;
 
-
 class <%= class_name %>
-: public cocos2d::Layer
+: public <%= parent_class || "cocos2d::Layer"%>
 , public cocosbuilder::CCBSelectorResolver
 , public cocosbuilder::CCBMemberVariableAssigner
 , public cocosbuilder::NodeLoaderListener
