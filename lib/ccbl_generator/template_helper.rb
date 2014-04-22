@@ -1,7 +1,10 @@
 module CcblGenerator::TemplateHelper
   def typeof(var)
-    if var["baseClass"] == "CCBFile"
+    case var["baseClass"]
+    when "CCBFile"
       File.basename(var["properties"].find{|prop| prop["name"] == "ccbFile"}["value"], ".ccb")
+    when "CCLabelTTF"
+      "Label"
     else
       var["baseClass"].gsub(/^CC/, '')
     end
