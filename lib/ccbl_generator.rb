@@ -46,7 +46,10 @@ class CcblGenerator
       n && n.first 
     }
     custom_properties = plist["nodeGraph"]["customProperties"]
-    @binding = {project_name:      project_name,
+    parent_class = (i = custom_properties.index{|v| v['name'] == "parentClass" }) && custom_properties.slice!(i)["value"] if custom_properties
+
+    @binding = {parent_class:      parent_class,
+                project_name:      project_name,
                 controls:          controls,
                 class_name:        class_name,
                 base_class:        "Layer",

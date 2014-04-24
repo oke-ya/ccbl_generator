@@ -4,7 +4,6 @@
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
 #include "cocosbuilder/CocosBuilder.h"
-<% parent_class = custom_properties && (i = custom_properties.index{|v| v['name'] == "parentClass" }) && custom_properties.slice!(i)["value"] %>
 <% if parent_class %>#include "<%= parent_class %>.h" <% end %>
 <%= header_includes(member_variables) %>
 
@@ -23,7 +22,13 @@ public:
     <%= class_name %>();
     virtual ~<%= class_name %>();
 
-    void openTest(const char* pCCBFileName, const char* nodeName = NULL, cocosbuilder::NodeLoader* nodeLoader = NULL);
+    <% if parent_class %>
+    virtual bool init();
+    virtual void onEnter();
+    virtual void onEnterTransitionDidFinish();
+    virtual void onExit();
+    virtual void onExitTransitionDidStart();
+    <% end %>
 
     virtual cocos2d::SEL_MenuHandler onResolveCCBCCMenuItemSelector(cocos2d::Ref* pTarget, const char* pSelectorName);
     virtual cocos2d::extension::Control::Handler onResolveCCBCCControlSelector(cocos2d::Ref* pTarget, const char* pSelectorName);

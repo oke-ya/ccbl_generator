@@ -18,6 +18,23 @@ using namespace cocosbuilder;
 <% end %>
 }
 
+<% parent_class_name = parent_class || "Layer"%>
+bool <%= class_name %>::init()
+{
+    if( !<%= parent_class_name %>::init() ){
+        return false;
+    }
+    return true;
+}
+
+<% %w|onEnter onEnterTransitionDidFinish onExit onExitTransitionDidStart|.each do |method_name| %>
+void <%= class_name %>::<%= method_name %>()
+{
+   <%= parent_class_name %>::<%= method_name %>();
+}
+
+<% end %>
+
 <% member_variables && member_variables.each do |var| %>
 <%= typeof(var) %>* <%= class_name %>::get<%= var["memberVarAssignmentName"].sub(/^(_\w)/){|c| c.gsub!(/^_/, ""); c.capitalize } %>()
 {
